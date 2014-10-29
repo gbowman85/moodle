@@ -30,7 +30,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2013110500;
+$plugin->version   = 2014102800;
 $plugin->requires  = 2013110500;
 $plugin->component = 'theme_obadesktop';
 $plugin->dependencies = array(

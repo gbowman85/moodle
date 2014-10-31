@@ -70,6 +70,10 @@ class block_navigation_renderer extends plugin_renderer_base {
             if (!$item->display && !$item->contains_active_node()) {
                 continue;
             }
+            // hide some elements
+            if ($item->text == 'My home' || $item->text == 'My profile' || $item->text == 'Site pages') {
+                continue;
+            }
             $content = $item->get_content();
             $title = $item->get_title();
 

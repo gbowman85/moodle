@@ -54,6 +54,11 @@ class block_settings_renderer extends plugin_renderer_base {
                 continue;
             }
 
+            // Hide usersettings from all except site admin
+            if (!is_siteadmin() && $item->id === 'usersettings') {
+                continue;
+            }
+
             $isbranch = ($item->children->count()>0  || $item->nodetype==navigation_node::NODETYPE_BRANCH);
             $hasicon = (!$isbranch && $item->icon instanceof renderable);
 

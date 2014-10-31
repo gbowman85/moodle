@@ -1026,7 +1026,7 @@ class global_navigation extends navigation_node {
             $properties = array(
                 'key' => 'home',
                 'type' => navigation_node::TYPE_SYSTEM,
-                'text' => get_string('home'),
+                'text' =>  get_string('home'),
                 'action' => new moodle_url('/')
             );
         } else {
@@ -1322,6 +1322,10 @@ class global_navigation extends navigation_node {
         if (!$this->contains_active_node()) {
             $this->search_for_active_node();
         }
+
+        //Remove unwanted navigation links
+	//$this->rootnodes['home']->remove();
+        $this->rootnodes['site']->remove();
 
         // If the user is not logged in modify the navigation structure as detailed
         // in {@link http://docs.moodle.org/dev/Navigation_2.0_structure}

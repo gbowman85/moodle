@@ -330,7 +330,7 @@ class assign_feedback_comments extends assign_feedback_plugin {
             $text = format_text($feedbackcomments->commenttext,
                                 $feedbackcomments->commentformat,
                                 array('context' => $this->assignment->get_context()));
-            $short = shorten_text($text, 140);
+            $short = shorten_text($text, 500);
 
             // Show the view all link if the text has been shortened.
             $showviewlink = $short != $text;

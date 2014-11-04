@@ -3056,7 +3056,9 @@ class assign {
                                                              $instance->attemptreopenmethod,
                                                              $instance->maxattempts,
                                                              $this->get_grading_status($userid));
-            $o .= $this->get_renderer()->render($submissionstatus);
+            if (has_capability('mod/assign:submit', $this->get_context())) {
+            	$o .= $this->get_renderer()->render($submissionstatus);
+            }
         }
 
         if ($grade) {

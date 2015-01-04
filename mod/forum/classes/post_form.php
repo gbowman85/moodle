@@ -26,6 +26,9 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->dirroot . '/repository/lib.php');
+if (!empty($CFG->usetags)) {
+    include_once($CFG->dirroot.'/tag/lib.php');
+}
 
 /**
  * Class to post in a forum.
@@ -194,6 +197,12 @@ class mod_forum_post_form extends moodleform {
                 $mform->addElement('static', 'groupinfo', get_string('group'), $groupname);
             }
         }
+        if ($forum->type == "blog") {
+		if (!empty($CFG->usetags)) {
+			$mform->addElement('header', 'tagshdr', get_string('tags', 'tag'));
+			$mform->addElement('tags', 'tags', get_string('tags'));
+		}
+	}
         //-------------------------------------------------------------------------------
         // buttons
         if (isset($post->edit)) { // hack alert

@@ -437,6 +437,7 @@ $string['searcholderposts'] = 'Search older posts...';
 $string['searchphrase'] = 'This exact phrase must appear in the post';
 $string['searchresults'] = 'Search results';
 $string['searchsubject'] = 'These words should be in the subject';
+$string['searchtag'] = 'This should be a tag';
 $string['searchuser'] = 'This name should match the author';
 $string['searchuserid'] = 'The Moodle ID of the author';
 $string['searchwhichforums'] = 'Choose which forums to search';

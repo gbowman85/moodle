@@ -34,11 +34,16 @@ $user    = trim(optional_param('user', '', PARAM_NOTAGS));    // Names to search
 $userid  = trim(optional_param('userid', 0, PARAM_INT));      // UserID to search for
 $forumid = trim(optional_param('forumid', 0, PARAM_INT));      // ForumID to search for
 $subject = trim(optional_param('subject', '', PARAM_NOTAGS)); // Subject
+$tag = trim(optional_param('tag', '', PARAM_NOTAGS)); // Tag
+if ($tag) {
+    $tagid = tag_get('name', $tag,'id')->id; // Tag ID
+} else {
+    $tagid = '';
+}
 $phrase  = trim(optional_param('phrase', '', PARAM_NOTAGS));  // Phrase
 $words   = trim(optional_param('words', '', PARAM_NOTAGS));   // Words
 $fullwords = trim(optional_param('fullwords', '', PARAM_NOTAGS)); // Whole words
 $notwords = trim(optional_param('notwords', '', PARAM_NOTAGS));   // Words we don't want
-
 $timefromrestrict = optional_param('timefromrestrict', 0, PARAM_INT); // Use starting date
 $fromday = optional_param('fromday', 0, PARAM_INT);      // Starting date
 $frommonth = optional_param('frommonth', 0, PARAM_INT);      // Starting date
@@ -81,6 +86,9 @@ if (empty($search)) {   // Check the other parameters instead
     }
     if (!empty($subject)) {
         $search .= ' '.forum_clean_search_terms($subject, 'subject:');
+    }
+    if (!empty($tagid)) {
+        $search .= ' tag:'.$tagid;
     }
     if (!empty($fullwords)) {
         $search .= ' '.forum_clean_search_terms($fullwords, '+');
@@ -187,6 +195,7 @@ echo '<a href="search.php?id='.$course->id.
                          '&amp;userid='.$userid.
                          '&amp;forumid='.$forumid.
                          '&amp;subject='.urlencode($subject).
+                         '&amp;tag='.urlencode($tagid).
                          '&amp;phrase='.urlencode($phrase).
                          '&amp;words='.urlencode($words).
                          '&amp;fullwords='.urlencode($fullwords).
@@ -309,7 +318,7 @@ echo $OUTPUT->footer();
   * @return void The function prints the form.
   */
 function forum_print_big_search_form($course) {
-    global $CFG, $DB, $words, $subject, $phrase, $user, $userid, $fullwords, $notwords, $datefrom, $dateto, $PAGE, $OUTPUT;
+    global $CFG, $DB, $words, $subject, $tag, $phrase, $user, $userid, $fullwords, $notwords, $datefrom, $dateto, $PAGE, $OUTPUT;
 
     echo $OUTPUT->box(get_string('searchforumintro', 'forum'), 'searchbox boxaligncenter', 'intro');
 
@@ -406,6 +415,11 @@ function forum_print_big_search_form($course) {
     echo '<tr>';
     echo '<td class="c0"><label for="subject">'.get_string('searchsubject', 'forum').'</label></td>';
     echo '<td class="c1"><input type="text" size="35" name="subject" id="subject" value="'.s($subject, true).'" alt="" /></td>';
+    echo '</tr>';
+
+    echo '<tr>';
+    echo '<td class="c0"><label for="tag">'.get_string('searchtag', 'forum').'</label></td>';
+    echo '<td class="c1"><input type="text" size="35" name="tag" id="tag" value="'.s($tag, true).'" alt="" /></td>';
     echo '</tr>';
 
     echo '<tr>';

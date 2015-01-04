@@ -26,6 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/deprecatedlib.php');
 require_once($CFG->libdir.'/filelib.php');
 require_once($CFG->libdir.'/eventslib.php');
+if (!empty($CFG->usetags)) {
+    include_once($CFG->dirroot.'/tag/lib.php');
+}
 
 /// CONSTANTS ///////////////////////////////////////////////////////////
 
@@ -2149,9 +2152,10 @@ function forum_search_posts($searchterms, $courseid=0, $limitfrom=0, $limitnum=5
     $searchstring = str_replace("\\\"","\"",$searchstring);
     $parser = new search_parser();
     $lexer = new search_lexer($parser);
-
+//print_r($lexer);
     if ($lexer->parse($searchstring)) {
         $parsearray = $parser->get_parsed_array();
+//print_r ($parsearray);
     // Experimental feature under 1.8! MDL-8830
     // Use alternative text searches if defined
     // This feature only works under mysql until properly implemented for other DBs
@@ -2166,6 +2170,7 @@ function forum_search_posts($searchterms, $courseid=0, $limitfrom=0, $limitnum=5
             list($messagesearch, $msparams) = search_generate_SQL($parsearray, 'p.message', 'p.subject',
                                                  'p.userid', 'u.id', 'u.firstname',
                                                  'u.lastname', 'p.modified', 'd.forum');
+//print_r ($msparams);
         }
         $params = array_merge($params, $msparams);
     }
@@ -2179,6 +2184,7 @@ function forum_search_posts($searchterms, $courseid=0, $limitfrom=0, $limitnum=5
                AND p.userid = u.id
                AND $selectdiscussion
                    $extrasql";
+//print_r ($selectsql);
 
     $countsql = "SELECT COUNT(*)
                    FROM $fromsql
@@ -3488,6 +3494,24 @@ function forum_print_post($post, $discussion, $forum, &$cm, $course, $ownpost=fa
         $output .= html_writer::tag('div', $OUTPUT->render($post->rating), array('class'=>'forum-post-rating'));
     }
 
+    // Output tags
+    $officialtags = tag_get_tags_csv('forum_post', $post->id, TAG_RETURN_HTML, 'official');
+    $defaulttags = tag_get_tags_csv('forum_post', $post->id, TAG_RETURN_HTML, 'default');
+
+    if (!empty($CFG->usetags) && ($officialtags || $defaulttags) ) {
+        //$output .= $this->output->container_start('tags');
+        $output .= html_writer::start_tag('div', array('class'=>'tags clearfix'));
+        $output .= get_string('tags', 'tag') .': ';
+        if ($officialtags) {
+            $output .= $officialtags;
+            if ($defaulttags) {
+                $output .=  ', ';
+            }
+        }
+        $output .= $defaulttags;
+        $output .= html_writer::end_tag('div'); // tags
+    }
+
     // Output the commands
     $commandhtml = array();
     foreach ($commands as $command) {
@@ -4432,6 +4456,9 @@ function forum_update_post($post, $mform, &$message) {
     // Let Moodle know that assessable content is uploaded (eg for plagiarism detection)
     forum_trigger_content_uploaded_event($post, $cm, 'forum_update_post');
 
+    // Set tags
+    tag_set('forum_post', $post->id, $post->tags, 'core', context_user::instance($post->userid)->id);
+
     return true;
 }
 
@@ -4475,6 +4502,7 @@ function forum_add_discussion($discussion, $mform=null, $unused=null, $userid=nu
     $post->forum         = $forum->id;     // speedup
     $post->course        = $forum->course; // speedup
     $post->mailnow       = $discussion->mailnow;
+    $post->tags          = isset($discussion->tags) ? $discussion->tags : null;
 
     $post->id = $DB->insert_record("forum_posts", $post);
 
@@ -4511,6 +4539,8 @@ function forum_add_discussion($discussion, $mform=null, $unused=null, $userid=nu
     if (!empty($cm->id)) {
         forum_trigger_content_uploaded_event($post, $cm, 'forum_add_discussion');
     }
+
+    tag_set('forum_post', $post->id, $post->tags, 'core', context_user::instance($post->userid)->id);
 
     return $post->discussion;
 }
@@ -4560,6 +4590,10 @@ function forum_delete_discussion($discussion, $fulldelete, $course, $cm, $forum)
             $completion->update_state($cm, COMPLETION_INCOMPLETE, $discussion->userid);
         }
     }
+
+    // Delete tags
+    tag_set('forum_post', $post->id, array(), 'core', context_user::instance($post->userid)->id);
+
 
     return $result;
 }
@@ -7765,3 +7799,4 @@ function forum_get_context($forumid, $context = null) {
 
     return $context;
 }
+

@@ -24,6 +24,7 @@
 
 $string['activityoverview'] = 'You have assignments that need attention';
 $string['addsubmission'] = 'Add submission';
+$string['addsubmission_help'] = 'You have not made a submission yet.';
 $string['addattempt'] = 'Allow another attempt';
 $string['addnewattempt'] = 'Add a new attempt';
 $string['addnewattempt_help'] = 'This will create a new blank submission for you to work on.';
@@ -139,7 +140,7 @@ $string['editattemptfeedback'] = 'Edit the grade and feedback for attempt number
 $string['editingpreviousfeedbackwarning'] = 'You are editing the feedback for a previous attempt. This is attempt {$a->attemptnumber} out of {$a->totalattempts}.';
 $string['editsubmission'] = 'Edit submission';
 $string['editsubmissionother'] = 'Edit submission for {$a}';
-$string['editsubmission_help'] = 'Make changes to your submission';
+$string['editsubmission_help'] = 'You can still make changes to your submission.';
 $string['editingstatus'] = 'Editing status';
 $string['editaction'] = 'Actions...';
 $string['eventallsubmissionsdownloaded'] = 'All the submissions are being downloaded.';
@@ -323,7 +324,7 @@ $string['reopenuntilpassincompatiblewithblindmarking'] = 'Reopen until pass opti
 $string['requiresubmissionstatement'] = 'Require that students accept the submission statement';
 $string['requiresubmissionstatement_help'] = 'Require that students accept the submission statement for all submissions to this assignment.';
 $string['requireallteammemberssubmit'] = 'Require all group members submit';
-$string['requireallteammemberssubmit_help'] = 'If enabled, all members of the student group must click the submit button for this assignment before the group submission will be considered as submitted. If disabled, the group submission will be considered as submitted as soon as any member of the student group clicks the submit button.';
+$string['requireallteammemberssubmit_help'] = 'If enabled, all members of the student group must click the submit button for this assignment before the group submission will be considered as submitted. If disabled, the group submission will be considered as submitted as soon as any member of the student group clicks the submit button. (Requires Send for Marking option to be set to Yes.)';
 $string['recordid'] = 'Identifier';
 $string['revealidentities'] = 'Reveal student identities';
 $string['revealidentitiesconfirm'] = 'Are you sure you want to reveal student identities for this assignment? This operation cannot be undone. Once the student identities have been revealed, the marks will be released to the gradebook.';
@@ -467,3 +468,11 @@ $string['submissiontypes'] = 'Submission types';
 $string['feedbacktypes'] = 'Feedback types';
 $string['groupsubmissionsettings'] = 'Group submission settings';
 $string['submissionlog'] = 'Student: {$a->fullname}, Status: {$a->status}';
+
+// Custom lang strings
+$string['gradethisuser'] = 'Grade user';
+$string['options'] = 'Options';
+$string['lastmodifiedusersubmission'] = 'User Submissions (by date)';
+$string['quickcomment'] = 'Quick Feedback:';
+$string['markerfeedback'] = 'Marker Feedback';
+$string['completeview'] = 'Complete view...';

@@ -125,7 +125,7 @@ class assign_submission_file extends assign_submission_plugin {
      * @return array
      */
     private function get_file_options() {
-        $fileoptions = array('subdirs'=>1,
+        $fileoptions = array('subdirs'=>0,
                                 'maxbytes'=>$this->get_config('maxsubmissionsizebytes'),
                                 'maxfiles'=>$this->get_config('maxfilesubmissions'),
                                 'accepted_types'=>'*',

@@ -329,8 +329,8 @@ class assign_grading_table extends table_sql implements renderable {
         }
 
         // Feedback plugins.
-	$columns[] = 'feedbacks';
-        $headers[] = get_string('markerfeedback', 'assign');
+	//$columns[] = 'feedbacks';
+        //$headers[] = get_string('markerfeedback', 'assign');
 
         // Exclude 'Final grade' column in downloaded grading worksheets.
         if (!$this->is_downloading()) {

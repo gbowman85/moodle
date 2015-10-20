@@ -283,11 +283,11 @@ class assign_grading_table extends table_sql implements renderable {
             $headers[] = get_string('recordid', 'assign');
         }
 
-	/* Submission plugins.
+	// Submission plugins.
         if ($assignment->is_any_submission_plugin_enabled()) {
             $columns[] = 'timesubmitted';
             $headers[] = get_string('lastmodifiedusersubmission', 'assign');
-        }*/
+        }
 
         // Grade.
         $columns[] = 'grade';
@@ -329,8 +329,8 @@ class assign_grading_table extends table_sql implements renderable {
         }
 
         // Feedback plugins.
-	//$columns[] = 'feedbacks';
-        //$headers[] = get_string('markerfeedback', 'assign');
+	$columns[] = 'feedbacks';
+        $headers[] = get_string('markerfeedback', 'assign');
 
         // Exclude 'Final grade' column in downloaded grading worksheets.
         if (!$this->is_downloading()) {
@@ -361,6 +361,7 @@ class assign_grading_table extends table_sql implements renderable {
         $this->sortable(true, 'userid');
         $this->no_sorting('recordid');
         $this->no_sorting('finalgrade');
+        $this->no_sorting('feedbacks');
         $this->no_sorting('userid');
         $this->no_sorting('select');
         $this->no_sorting('outcomes');
@@ -849,7 +850,7 @@ class assign_grading_table extends table_sql implements renderable {
             $link = new action_link($url, $icon . get_string('gradethisuser', 'assign'));
             $link->add_class('btn');
             $link = $this->output->render($link);
-            $grade1 .= $link . $separator;
+            $grade1 .= $link ;//. $separator;
         }
 
         $gradestr .= $this->display_grade($row->grade,
@@ -878,17 +879,17 @@ class assign_grading_table extends table_sql implements renderable {
                     $grade->mailed = $row->mailed;
                     $grade->attemptnumber = $row->attemptnumber;
                 }
-                if ($this->quickgrading && $plugin->supports_quickgrading()) {
-					$feedback .= '<div class="quickcomment">' . get_string('quickcomment', 'assign') . '</div>';
+                /*if ($this->quickgrading && $plugin->supports_quickgrading()) {
+                    $feedback .= '<div class="quickcomment">' . get_string('quickcomment', 'assign') . '</div>';
                     $feedback .= $plugin->get_quickgrading_html($row->userid, $grade);
-                }
+                }*/
             }
         }
 
         $grademodified = '';
 
         if ($row->timemarked && $row->grade !== null && $row->grade >= 0) {
-            $grademodified = '<p class="submissiondate">' . userdate($row->timemarked, get_string('strftimerecentfull', 'langconfig')) . '</p>'; // GB - Show date
+            $grademodified = '<p class="submissiondate">' . userdate($row->timemarked, get_string('strftimedatetimeshort', 'langconfig')) . '</p>'; // GB - Show date
         }
         if ($row->timemarked && $this->is_downloading()) {
             // Force it for downloads as it affects import.
@@ -949,10 +950,10 @@ class assign_grading_table extends table_sql implements renderable {
         $this->get_group_and_submission($row->id, $group, $submission, -1);
         if ($submission && $submission->timemodified && $submission->status != ASSIGN_SUBMISSION_STATUS_NEW) {
             $o = userdate($submission->timemodified);
-            $o = '<p class="submissiondate">' . userdate($submission->timemodified, get_string('strftimerecentfull', 'langconfig')) . '</p>';
+            $o = '<p class="submissiondate">' . userdate($submission->timemodified, get_string('strftimedatetimeshort', 'langconfig')) . '</p>';
         } else if ($row->timesubmitted) {
             $o = userdate($row->timesubmitted);
-            $o = '<p class="submissiondate">' . userdate($row->timesubmitted, get_string('strftimerecentfull', 'langconfig')) . '</p>';
+            $o = '<p class="submissiondate">' . userdate($row->timesubmitted, get_string('strftimedatetimeshort', 'langconfig')) . '</p>';
         }
 
         // Display user submisions here as well
@@ -963,7 +964,7 @@ class assign_grading_table extends table_sql implements renderable {
             if ($plugin->get_subtype() == 'assignsubmission' && ($plugin->is_visible() && $plugin->is_enabled())) {
 		if($plugin->get_name() != get_string('pluginname', 'assignsubmission_comments'))
 		{
-			$usersubmission .= '<p class="assigntitle">' . $plugin->get_name() . '</p>';
+			//$usersubmission .= '<p class="assigntitle">' . $plugin->get_name() . '</p>';
 		}
 
                 if ($this->assignment->get_instance()->teamsubmission) {
@@ -1010,7 +1011,6 @@ class assign_grading_table extends table_sql implements renderable {
                 }
             }
 
-	    //$usersubmission .= '<hr class="hrbreak" />';
         }
 
         return $usersubmission . $o;
@@ -1349,12 +1349,15 @@ class assign_grading_table extends table_sql implements renderable {
                     $grade->attemptnumber = $row->attemptnumber;
                 }
 
-                if ($grade) {
+                if ($this->quickgrading && $plugin->supports_quickgrading()) {
+                    $o .= '<div class="quickcomment">' . get_string('quickcomment', 'assign') . '</div>';
+                    $o .= $plugin->get_quickgrading_html($row->userid, $grade);
+                }
+                else if ($grade) {
                      $o .= $this->format_plugin_summary_with_link($plugin,
                                                                   $grade,
                                                                   'grading',
                                                                   array());
-                     $o .= '<hr class="hrbreak" />';
                 }
             }
         }

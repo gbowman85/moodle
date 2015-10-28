@@ -1,0 +1,5 @@
+<?php
+
+$handlers = array (
+
+);

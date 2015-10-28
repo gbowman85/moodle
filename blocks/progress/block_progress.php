@@ -121,6 +121,7 @@ class block_progress extends block_base {
         // Draw the multi-bar content for the My home page.
         if (block_progress_on_my_page()) {
             $courses = enrol_get_my_courses();
+            $coursenametoshow = get_config('block_progress', 'coursenametoshow') ?: 'shortname';
             $sql = "SELECT bi.id,
                            bp.id AS blockpositionid,
                            COALESCE(bp.region, bi.defaultregion) AS region,
@@ -153,7 +154,16 @@ class block_progress extends block_base {
                             $blockinstance->events = block_progress_filter_visibility($blockinstance->events,
                                                          $USER->id, $context, $course);
                         }
-                        if ($blockinstance->visible == 0 || empty($blockinstance->config) || $blockinstance->events == 0) {
+                        if (
+                            $blockinstance->visible == 0 ||
+                            empty($blockinstance->config) ||
+                            $blockinstance->events == 0 ||
+                            (
+                                !empty($blockinstance->config->group) &&
+                                !has_capability('moodle/site:accessallgroups', $context) &&
+                                !groups_is_member($blockinstance->config->group, $USER->id)
+                            )
+                        ) {
                             unset($blockinstances[$blockid]);
                         }
                     }
@@ -161,12 +171,12 @@ class block_progress extends block_base {
                     // Output the Progress Bar.
                     if (!empty($blockinstances)) {
                         $courselink = new moodle_url('/course/view.php', array('id' => $course->id));
-                        $linktext = HTML_WRITER::tag('h3', s($course->shortname));
+                        $linktext = HTML_WRITER::tag('h3', s($course->$coursenametoshow));
                         $this->content->text .= HTML_WRITER::link($courselink, $linktext);
                     }
                     foreach ($blockinstances as $blockid => $blockinstance) {
                         if ($blockinstance->config->progressTitle != '') {
-                            $this->content->text .= HTML_WRITER::tag('p', s($blockinstance->config->progressTitle));
+                            $this->content->text .= HTML_WRITER::tag('p', s(format_string($blockinstance->config->progressTitle)));
                         }
                         $attempts = block_progress_attempts($modules,
                                                             $blockinstance->config,
@@ -189,13 +199,24 @@ class block_progress extends block_base {
                     }
                 }
             }
-            if ($this->content->text == '') {
+
+            // Show a message explaining lack of bars, but only while editing is on.
+            if ($this->page->user_is_editing() && $this->content->text == '') {
                 $this->content->text = get_string('no_blocks', 'block_progress');
             }
         }
 
         // Gather content for block on regular course.
         else {
+
+            // Check if user is in group for block.
+            if (
+                !empty($this->config->group) &&
+                !has_capability('moodle/site:accessallgroups', $this->context) &&
+                !groups_is_member($this->config->group, $USER->id)
+            ) {
+                return $this->content;
+            }
 
             // Check if any activities/resources have been created.
             $modules = block_progress_modules_in_use($COURSE->id);

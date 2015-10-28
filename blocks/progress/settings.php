@@ -18,7 +18,7 @@
  * Progress block settings
  *
  * @package   block_progress
- * @copyright 2014 onwards Johan Reinalda (johan at reinalda dot net)
+ * @copyright 2010 Michael de Raadt
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,9 +26,22 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
+    $options = array(
+        'shortname' => get_string('shortname', 'block_progress'),
+        'fullname' => get_string('fullname', 'block_progress')
+    );
+    $settings->add(new admin_setting_configselect('block_progress/coursenametoshow',
+        get_string('coursenametoshow', 'block_progress'),
+        get_string('coursenametoshow', 'block_progress'),
+        'shortname',
+        $options)
+    );
+
     $settings->add(new admin_setting_configcolourpicker('block_progress/attempted_colour',
         get_string('attempted_colour_title', 'block_progress'),
-        get_string('attempted_colour_descr', 'block_progress'), '#5CD85C', null )
+        get_string('attempted_colour_descr', 'block_progress'),
+        get_string('attempted_colour', 'block_progress'),
+        null )
     );
 
     $settings->add(new admin_setting_configcolourpicker('block_progress/marked_colour',
@@ -43,11 +56,15 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configcolourpicker('block_progress/notattempted_colour',
         get_string('notattempted_colour_title', 'block_progress'),
-        get_string('notattempted_colour_descr', 'block_progress'), '#FF5C5C', null )
+        get_string('notattempted_colour_descr', 'block_progress'),
+        get_string('notAttempted_colour', 'block_progress'),
+        null )
     );
 
     $settings->add(new admin_setting_configcolourpicker('block_progress/futurenotattempted_colour',
         get_string('futurenotattempted_colour_title', 'block_progress'),
-        get_string('futurenotattempted_colour_descr', 'block_progress'), '#5C5CFF', null )
+        get_string('futurenotattempted_colour_descr', 'block_progress'),
+        get_string('futureNotAttempted_colour', 'block_progress'),
+        null )
     );
 }

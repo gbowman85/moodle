@@ -48,7 +48,7 @@ class mod_checklist_mod_form extends moodleform_mod {
     public function definition() {
 
         global $CFG;
-        $mform =& $this->_form;
+        $mform = $this->_form;
 
         // Adding the "general" fieldset, where all the common settings are showed.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -59,7 +59,11 @@ class mod_checklist_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
-        $this->add_intro_editor(true, get_string('checklistintro', 'checklist'));
+        if ($CFG->branch < 29) {
+            $this->add_intro_editor(true, get_string('checklistintro', 'checklist'));
+        } else {
+            $this->standard_intro_elements(get_string('checklistintro', 'checklist'));
+        }
 
         $mform->addElement('header', 'checklistsettings', get_string('checklistsettings', 'checklist'));
         if ($CFG->branch >= 25) {
@@ -81,11 +85,9 @@ class mod_checklist_mod_form extends moodleform_mod {
 
         $mform->addElement('select', 'teachercomments', get_string('teachercomments', 'checklist'), $ynoptions);
         $mform->setDefault('teachercomments', 1);
-        $mform->setAdvanced('teachercomments');
 
         $mform->addElement('text', 'maxgrade', get_string('maximumgrade'), array('size' => '10'));
         $mform->setDefault('maxgrade', 100);
-        $mform->setAdvanced('maxgrade');
         $mform->setType('maxgrade', PARAM_INT);
 
         $emailrecipients = array(
@@ -120,7 +122,6 @@ class mod_checklist_mod_form extends moodleform_mod {
 
         $mform->addElement('selectyesno', 'lockteachermarks', get_string('lockteachermarks', 'checklist'));
         $mform->setDefault('lockteachermarks', 0);
-        $mform->setAdvanced('lockteachermarks');
         $mform->addHelpButton('lockteachermarks', 'lockteachermarks', 'checklist');
 
         // Add standard elements, common to all modules.

@@ -24,6 +24,7 @@
  */
 
 // Module names.
+$string['aspirelist'] = 'Aspire resource list';
 $string['assign'] = 'Assignment';
 $string['assignment'] = 'Assignment';
 $string['book'] = 'Book';
@@ -42,7 +43,10 @@ $string['hsuforum'] = 'Advanced Forum';
 $string['imscp'] = 'IMS Content Package';
 $string['journal'] = 'Journal';
 $string['lesson'] = 'Lesson';
+$string['lti'] = 'External tool';
+$string['ouwiki'] = 'OU Wiki';
 $string['page'] = 'Page';
+$string['panopto'] = 'Panopto video';
 $string['questionnaire'] = 'Questionnaire';
 $string['quiz'] = 'Quiz';
 $string['resource'] = 'File';
@@ -50,6 +54,7 @@ $string['recordingsbn'] = 'BBB Recordings';
 $string['scorm'] = 'SCORM';
 $string['turnitintool'] = 'Turnitin Tool';
 $string['url'] = 'URL';
+$string['video'] = 'Video';
 $string['wiki'] = 'Wiki';
 $string['workshop'] = 'Workshop';
 
@@ -64,6 +69,7 @@ $string['finished'] = 'finished';
 $string['graded'] = 'graded';
 $string['marked'] = 'marked';
 $string['passed'] = 'passed';
+$string['passedby'] = 'passed by deadline';
 $string['passedscorm'] = 'passed';
 $string['posted_to'] = 'posted to';
 $string['responded_to'] = 'responded to';
@@ -73,6 +79,7 @@ $string['viewed'] = 'viewed';
 
 // Strings for the Config page.
 $string['config_default_title'] = 'Progress Bar';
+$string['config_group'] = 'Visible only to group';
 $string['config_header_action'] = 'Action';
 $string['config_header_expected'] = 'Expected by';
 $string['config_header_icon'] = 'Icon';
@@ -129,7 +136,8 @@ $string['what_actions_can_be_monitored'] = 'What actions can be monitored?';
 $string['what_actions_can_be_monitored_help'] = '
 <p>Different activities and resources can be monitored.</p>
 <p>Because different activities and resources are used differently, what is monitored for each module varies. For example, for assignments, submission can be monitored; quizzes can be monitored on attempt; forums can be monitored for student postings; choice activities can monitored for answering and viewing resources is monitored.</p>
-<p>For the assignment and quiz modules, the notion of passed relies on a "Grade to pass" being set for the grade item in the Gradebook. <a href="http://docs.moodle.org/en/Grade_items#Activity-based_grade_items" target="_blank">More help...</a></p>
+<h3>Passing</h3>
+<p>For the assignment, lesson and quiz modules, the notion of passing relies on a "Grade to pass" being set for the grade item in the Gradebook. <a href="http://docs.moodle.org/en/Grade_items#Activity-based_grade_items" target="_blank">More help...</a></p>
 ';
 $string['why_show_precentage'] = 'Why show a progress percentage to students?';
 $string['why_show_precentage_help'] = '
@@ -149,10 +157,13 @@ $string['how_ordering_works_help'] = '
     </li>
 </ul>
 ';
+$string['how_group_works'] = 'How visible group works';
+$string['how_group_works_help'] = '
+<p>Selecting a group will limit the display of the this block to that group only.</p>
+';
 
 // Other terms.
 $string['addallcurrentitems'] = 'Add all activities/resources';
-$string['date_format'] = '%a %d %b, %I:%M %p';
 $string['mouse_over_prompt'] = 'Mouse over block for info.';
 $string['no_events_config_message'] = 'There are no activities or resources to monitor the progress of. Create some activities and/or resources then configure this block.';
 $string['no_events_message'] = 'No activities or resources are being monitored. Use config to set up monitoring.';
@@ -162,13 +173,14 @@ $string['pluginname'] = 'Progress Bar';
 $string['selectitemstobeadded'] = 'Select activities/resources';
 $string['time_expected'] = 'Expected';
 
+// Global setting strings
 // Default colours that may have different cultural meanings.
+// Note that these defaults can be overridden by the block's global settings.
 $string['attempted_colour'] = '#5CD85C';
 $string['marked_colour'] = '#5CD85C';
 $string['submitted_colour'] = '#F7BB5C';
 $string['notAttempted_colour'] = '#FF5C5C';
 $string['futureNotAttempted_colour'] = '#5C5CFF';
-
 $string['attempted_colour_title'] = 'Attempted Colour';
 $string['attempted_colour_descr'] = 'HTML Colour code for elements that have been attempted';
 $string['marked_colour_title'] = 'Marked Colour';
@@ -179,6 +191,9 @@ $string['notattempted_colour_title'] = 'Not-attempted Colour';
 $string['notattempted_colour_descr'] = 'HTML Colour code for current elements that have not yet been attempted';
 $string['futurenotattempted_colour_title'] = 'Future Not-attempted Colour';
 $string['futurenotattempted_colour_descr'] = 'HTML Colour code for future elements that have not yet been attemted';
+$string['coursenametoshow'] = 'Course name to show on Dashboard';
+$string['shortname'] = 'Short course name';
+$string['fullname'] = 'Full course name';
 
 // Overview page strings.
 $string['lastonline'] = 'Last in course';

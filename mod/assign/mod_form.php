@@ -100,6 +100,24 @@ class mod_assign_mod_form extends moodleform_mod {
         $mform->addHelpButton('alwaysshowdescription', 'alwaysshowdescription', 'assign');
         $mform->disabledIf('alwaysshowdescription', 'allowsubmissionsfromdate[enabled]', 'notchecked');
 
+	$this->standard_grading_coursemodule_elements();
+	$mform->setExpanded('modstandardgrade', true);
+        $name = get_string('blindmarking', 'assign');
+        $mform->addElement('selectyesno', 'blindmarking', $name);
+        $mform->addHelpButton('blindmarking', 'blindmarking', 'assign');
+        if ($assignment->has_submissions_or_grades() ) {
+            $mform->freeze('blindmarking');
+        }
+
+        $name = get_string('markingworkflow', 'assign');
+        $mform->addElement('selectyesno', 'markingworkflow', $name);
+        $mform->addHelpButton('markingworkflow', 'markingworkflow', 'assign');
+
+        $name = get_string('markingallocation', 'assign');
+        $mform->addElement('selectyesno', 'markingallocation', $name);
+        $mform->addHelpButton('markingallocation', 'markingallocation', 'assign');
+        $mform->disabledIf('markingallocation', 'markingworkflow', 'eq', 0);
+
         $assignment->add_all_plugin_settings($mform);
 
         $mform->addElement('header', 'submissionsettings', get_string('submissionsettings', 'assign'));
@@ -188,6 +206,7 @@ class mod_assign_mod_form extends moodleform_mod {
             plagiarism_get_form_elements_module($mform, $ctx->get_course_context(), 'mod_assign');
         }
 
+	/* Move to top
         $this->standard_grading_coursemodule_elements();
         $name = get_string('blindmarking', 'assign');
         $mform->addElement('selectyesno', 'blindmarking', $name);
@@ -204,6 +223,7 @@ class mod_assign_mod_form extends moodleform_mod {
         $mform->addElement('selectyesno', 'markingallocation', $name);
         $mform->addHelpButton('markingallocation', 'markingallocation', 'assign');
         $mform->disabledIf('markingallocation', 'markingworkflow', 'eq', 0);
+	*/
 
         $this->standard_coursemodule_elements();
         $this->apply_admin_defaults();

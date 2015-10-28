@@ -1,0 +1,27 @@
+/* Mobile CSS Settings
+-------------------------*/
+/* Sidebar */
+.snap-drawer{top:72px; width:245px;padding: 5px 10px}
+.snap-content{top:72px;background-color:#00adee;}
+
+/* Header size at different screens */
+.nav-collapse {height: auto;}
+.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top{
+  margin-left:0;margin-right:0;}
+@media (max-width: 979px){
+  .navbar .brand {width:auto;}
+  .navbar .brand img {max-width: 100%;width: 300px;}
+}
+@media (max-width: 620px){
+  .navbar .brand {max-width: 50%;}
+}
+@media (max-width: 460px){
+  .navbar .brand {padding-left:0;padding-right:0;}
+}
+@media (max-width: 391px){
+  .snap-drawer{top:100px;}
+  .snap-content{top:100px;}
+}
+
+.breadcrumb-nav .breadcrumb{margin-left: 10px;box-shadow:none;}
+.block:before, .block:after {box-shadow:none;webkit-box-shadow:none;}

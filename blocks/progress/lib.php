@@ -1092,8 +1092,8 @@ function block_progress_bar($modules, $config, $events, $userid, $instance, $att
     // Get colours and use defaults if they are not set in global settings.
     $colournames = array(
         'attempted_colour' => 'attempted_colour',
-        'attempted_colour' => 'marked_colour',
-        'attempted_colour' => 'submitted_colour',
+        'marked_colour' => 'marked_colour',
+        'submitted_colour' => 'submitted_colour',
 	'notattempted_colour' => 'notAttempted_colour',
         'futurenotattempted_colour' => 'futureNotAttempted_colour'
     );
@@ -1178,7 +1178,7 @@ function block_progress_bar($modules, $config, $events, $userid, $instance, $att
             }
             //If the assignment has been attempted but not yet marked show orange
             else if ($attempted === true) {
-                $celloptions['style'] .= $colours['attempted_colour'].';';
+                $celloptions['style'] .= $colours['submitted_colour'].';';
                 $cellcontent = $OUTPUT->pix_icon(
                                    isset($config->progressBarIcons) && $config->progressBarIcons==1 ?
                                    'tick' : 'blank', '', 'block_progress');

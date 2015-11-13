@@ -206,7 +206,7 @@ for ($i = 0; $i < $numberofusers; $i++) {
     $userevents = block_progress_filter_visibility($events, $users[$i]->id, $context, $course);
     if (!empty($userevents)) {
         $attempts = block_progress_attempts($modules, $progressconfig, $userevents, $users[$i]->id, $course->id);
-        $markedassignments = block_progress_markedassignments($modules, $config, $userevents, $users[$i]->id, $course->id);
+        $markedassignments = block_progress_markedassignments($modules, $progressconfig, $userevents, $users[$i]->id, $course->id);
         $progressbar = block_progress_bar($modules, $progressconfig, $userevents, $users[$i]->id, $progressblock->id, $attempts,$markedassignments,
             $course->id, true);
         $progressvalue = block_progress_percentage($userevents, $attempts, true);
